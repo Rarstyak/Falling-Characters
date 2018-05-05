@@ -13,17 +13,22 @@
 			var height = 1660;
 			var dropx = 420;
 			var dropy = 420;
-			var noOfDrops = 2;
 			var fallingDrops = [];
+			
 			var srcBGroute = 'images/BG/';
 			var srcBGStorage = [];
+			
+			var noOfDrops = 5;
 			var srcDroproute = 'images/';
 			var srcDropStorage = [];
 			
 			srcBGStorage[0] = "Desktop_Background-bqSw.jpg";
 			srcDropStorage = [
-			'zhen.png',
-			'rei.png'
+			'lissi.png',
+			'lawrence.png',
+			'doran.png',
+			'rei.png',
+			'zhen.png'
 			];
 
 
@@ -57,7 +62,7 @@
 				imgBg.src = '' + srcBGroute + srcBGStorage[0];
 				setInterval(draw, 36);
 
-				for (i = 0; i < 2; i++) {
+				for (i = 0; i < noOfDrops; i++) {
 				  var fallingDr = new Object();
 				  fallingDr["image"] = new Image();
 				  fallingDr.image.src = '' + srcDroproute + srcDropStorage[i];
