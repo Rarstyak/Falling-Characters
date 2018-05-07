@@ -7,75 +7,75 @@
 			var ctx;
 			var imgBg;
 			var imgDrops;
-			var x = 0;
-			var y = 0;
+			//Canvas Size
 			var width = 1040;
 			var height = 1660;
+			//Drop Size and Array
 			var dropx = 420;
 			var dropy = 420;
 			var fallingDrops = [];
-			
+			//Background image link list
 			var srcBGroute = 'images/BG/';
-			var srcBGStorage = [];
-			
-			var noOfDrops = 5;
+			var srcBGStorage = "Desktop_Background-bqSw.jpg";
+			//Drop image link list
+			var noOfDrops;
 			var srcDroproute = 'images/';
-			var srcDropStorage = [];
-			
-			srcBGStorage[0] = "Desktop_Background-bqSw.jpg";
-			srcDropStorage = [
-			'lissi.png',
-			'lawrence.png',
-			'doran.png',
-			'rei.png',
-			'zhen.png'
+			var srcDropStorage = [
+				'lissi.png',
+				'lawrence.png',
+				'doran.png',
+				'damain.png',
+				'nicholas.png',
+				'rei.png',
+				'zhen.png'
 			];
+			noOfDrops = srcDropStorage.length;
 
-
+			//Background
 			function drawBackground() {
-			  ctx.drawImage(imgBg, 0, 0); //Background
+				ctx.drawImage(imgBg, 0, 0); 
 			}
-
+			
+			//Draw Function
 			function draw() {
-			  drawBackground();
-
-			  for (var i = 0; i < noOfDrops; i++) {
-				ctx.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y); //The rain drop
-
-				fallingDrops[i].y += fallingDrops[i].speed; //Set the falling speed
-				if (fallingDrops[i].y > height) { //Repeat the raindrop when it falls out of view
-				  fallingDrops[i].y = -5 - dropy //Account for the image size
-				  fallingDrops[i].x = Math.random() * (width - dropx); //Make it appear randomly along the width    
-				  fallingDrops[i].speed = 3 + Math.random() * 4;
+				//Background
+				drawBackground();
+				//Drops
+				for (var i = 0; i < noOfDrops; i++) {
+					//Draw and Increment
+					ctx.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y);
+					fallingDrops[i].y += fallingDrops[i].speed;
+					//Put back up if below view
+					if (fallingDrops[i].y > height) {
+						fallingDrops[i].y = -5 - dropy
+						fallingDrops[i].x = Math.random() * (width - dropx);  
+						fallingDrops[i].speed = 3 + Math.random() * 4;
+					}
 				}
-
-			  }
 			}
 
+			//Setup Function
 			function setup() {
-			  var canvas = document.getElementById('canvasRegn');
-
-			  if (canvas.getContext) {
-				ctx = canvas.getContext('2d');
-
-				imgBg = new Image();
-				imgBg.src = '' + srcBGroute + srcBGStorage[0];
-				setInterval(draw, 36);
-
-				for (i = 0; i < noOfDrops; i++) {
-				  var fallingDr = new Object();
-				  fallingDr["image"] = new Image();
-				  fallingDr.image.src = '' + srcDroproute + srcDropStorage[i];
-
-				  fallingDr["x"] = Math.random() * (width - dropx);
-				  fallingDr["y"] = Math.random() * (height - dropy);
-				  fallingDr["speed"] = 3 + Math.random() * 4;
-				  fallingDrops.push(fallingDr);
+				var canvas = document.getElementById('canvasRegn');
+				if (canvas.getContext) {
+					ctx = canvas.getContext('2d');
+					imgBg = new Image();
+					imgBg.src = '' + srcBGroute + srcBGStorage;
+					setInterval(draw, 36);
+					//Loop Through and add drops
+					for (i = 0; i < noOfDrops; i++) {
+						var fallingDr = new Object();
+						fallingDr["image"] = new Image();
+						fallingDr.image.src = '' + srcDroproute + srcDropStorage[i];
+						fallingDr["x"] = Math.random() * (width - dropx);
+						fallingDr["y"] = Math.random() * (height - dropy);
+						fallingDr["speed"] = 3 + Math.random() * 4;
+						fallingDrops.push(fallingDr);
+					}
 				}
-
-			  }
 			}
-
+			
+			//Setup Call
 			setup();
 		</script>
 	</body>
