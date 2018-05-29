@@ -1,18 +1,22 @@
-
 <!DOCTYPE html>
 <html>
 	<body style="background-color:black;">
-		<canvas id="canvasRegn" width="1040" height="1660" margin="0" padding="0"></canvas>
+		<canvas id="canvasRegn" width="1040" height="1660"></canvas>
 		<script>
-			var ctx;
+			var context;
 			var imgBg;
 			var imgDrops;
+			//Mouse Tracker
+			var mouseX;
+			var mouseY;
+			var mouseOverChar = 0;
 			//Canvas Size
 			var width = 1040;
 			var height = 1660;
 			//Drop Size and Array
 			var dropx = 420;
 			var dropy = 420;
+			var dropScale = 0.5;
 			var fallingDrops = [];
 			//Background image link list
 			var srcBGroute = 'images/BG/';
@@ -20,45 +24,76 @@
 			//Drop image link list
 			var noOfDrops;
 			var srcDroproute = 'images/';
-			var srcDropStorage = [
-				'lissi.png',
-				'lawrence.png',
-				'doran.png',
-				'damain.png',
-				'nicholas.png',
-				'rei.png',
-				'zhen.png'
+			
+			var dropData = [	
+			//['name(+.png/+bg.png)', 'full name', 'alignment', 'gender', 	'species', 			'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	]
+				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'clear',	'clear',		'grey',		'8',	'16',	'17',	'18',	'14',	'10'	],
+				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'clear',	'clear',		'grey',		'8',	'16',	'17',	'18',	'14',	'10'	],
+				['doran', 'Doran Ashford',				'LN',	'Wizard',	'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'ash',		'ash',			'amber',	'10',	'14',	'14',	'18',	'14',	'11'	],
+				['damain', 'Damain Daytonos',			'CG',	'Male',		'Human',			'Bard',		'54yrs',	'6\'5\"',	'146lbs',	'grey',		'white',		'blue',		'9',	'14',	'12',	'14',	'14',	'16'	],
+			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19yrs',	'6\'6\"',	'???lbs',	'light blue','white',		'red',		'7',	'7',	'13',	'14',	'16',	'16[10]'],
+				['nicholas', 'Nicholas Reign Zhou',		'CE',	'Male',		'Muse',				'Rouge',	'39yrs',	'5\'6\"',	'135lbs',	'black',	'white',		'brown',	'10',	'16',	'12',	'17',	'16',	'13'	],
+				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'black',	'purple',		'black',	'20',	'16',	'14',	'7',	'10',	'12'	],
+				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'black',	'dark blue',	'green',	'7',	'18',	'14',	'12',	'8',	'18'	]
 			];
-			noOfDrops = srcDropStorage.length;
+			noOfDrops = dropData.length;
 
 			//Background
 			function drawBackground() {
-				ctx.drawImage(imgBg, 0, 0); 
+				context.drawImage(imgBg, 0, 0); //later make background for each ?character/class? and index in srcBGStorage, recall w/ mouseOverChar
 			}
 			
 			//Draw Function
 			function draw() {
 				//Background
 				drawBackground();
+				context.drawImage(fallingDrops[mouseOverChar].image, width/2 - dropx/2, height/2 - dropy/2, dropx, dropy);
+//
+context.font = "30px Comic Sans MS";
+context.fillStyle = '' + dropData[mouseOverChar][9];
+context.textAlign = "center";
+context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2); 
+//
+context.save();
+context.translate(width/2, height/2);
+context.rotate(-45*Math.PI/180);
+context.textAlign = "center";
+context.fillStyle = '' + dropData[mouseOverChar][10];
+context.fillText('' + dropData[mouseOverChar][5], 0, 0);
+context.restore();
+//
 				//Drops
 				for (var i = 0; i < noOfDrops; i++) {
 					//Draw and Increment
-					ctx.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y);
+					context.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y, (dropScale * dropx), (dropScale * dropy));
 					fallingDrops[i].y += fallingDrops[i].speed;
 					//Put back up if below view
 					if (fallingDrops[i].y > height) {
-						fallingDrops[i].y = -5 - dropy
-						fallingDrops[i].x = Math.random() * (width - dropx);  
+						fallingDrops[i].y = -5 - (dropScale * dropy);
+						fallingDrops[i].x = Math.random() * (width - (dropScale * dropx));  
 						fallingDrops[i].speed = 3 + Math.random() * 4;
+					}
+					//check if mouse over char
+					if (fallingDrops[i].x < mouseX && fallingDrops[i].x + (dropScale * dropx) > mouseX && fallingDrops[i].y < mouseY && fallingDrops[i].y + (dropScale * dropy) > mouseY) {
+						mouseOverChar = i;
 					}
 				}
 			}
+			
+			
 
 			//Setup Function
 			function setup() {
 				var canvas = document.getElementById('canvasRegn');
+				//Track mouse position in mouseX and mouseY
+				canvas.addEventListener('mousemove', function(evt) {
+					var rect = canvas.getBoundingClientRect();
+					mouseX = evt.clientX - rect.left;
+					mouseY = evt.clientY - rect.top;
+				}, false)
+				//Set up images
 				if (canvas.getContext) {
-					ctx = canvas.getContext('2d');
+					context = canvas.getContext('2d');
 					imgBg = new Image();
 					imgBg.src = '' + srcBGroute + srcBGStorage;
 					setInterval(draw, 36);
@@ -66,9 +101,9 @@
 					for (i = 0; i < noOfDrops; i++) {
 						var fallingDr = new Object();
 						fallingDr["image"] = new Image();
-						fallingDr.image.src = '' + srcDroproute + srcDropStorage[i];
-						fallingDr["x"] = Math.random() * (width - dropx);
-						fallingDr["y"] = Math.random() * (height - dropy);
+						fallingDr.image.src = '' + srcDroproute + dropData[i][0] + '.png';
+						fallingDr["x"] = Math.random() * (width - (dropScale * dropx));
+						fallingDr["y"] = Math.random() * (height - (dropScale * dropy));
 						fallingDr["speed"] = 3 + Math.random() * 4;
 						fallingDrops.push(fallingDr);
 					}
@@ -77,6 +112,9 @@
 			
 			//Setup Call
 			setup();
+
 		</script>
 	</body>
 </html>
+
+
