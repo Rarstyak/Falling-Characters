@@ -10,6 +10,10 @@
 			var mouseX;
 			var mouseY;
 			var mouseOverChar = 0;
+			//Last Click Tracker
+			var clickX;
+			var clickY;
+			var click = 0;
 			//Canvas Size
 			var width = 1040;
 			var height = 1660;
@@ -18,6 +22,8 @@
 			var dropy = 420;
 			var dropScale = 0.5;
 			var fallingDrops = [];
+			//Radar Size
+			var radarSize = 525;
 			//Background image link list
 			var srcBGroute = 'images/BG/';
 			var srcBGStorage = "Desktop_Background-bqSw.jpg";
@@ -27,14 +33,14 @@
 			
 			var dropData = [	
 			//['name(+.png/+bg.png)', 'full name', 'alignment', 'gender', 	'species', 			'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	]
-				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'clear',	'clear',		'grey',		'8',	'16',	'17',	'18',	'14',	'10'	],
-				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'clear',	'clear',		'grey',		'8',	'16',	'17',	'18',	'14',	'10'	],
-				['doran', 'Doran Ashford',				'LN',	'Wizard',	'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'ash',		'ash',			'amber',	'10',	'14',	'14',	'18',	'14',	'11'	],
-				['damain', 'Damain Daytonos',			'CG',	'Male',		'Human',			'Bard',		'54yrs',	'6\'5\"',	'146lbs',	'grey',		'white',		'blue',		'9',	'14',	'12',	'14',	'14',	'16'	],
-			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19yrs',	'6\'6\"',	'???lbs',	'light blue','white',		'red',		'7',	'7',	'13',	'14',	'16',	'16[10]'],
-				['nicholas', 'Nicholas Reign Zhou',		'CE',	'Male',		'Muse',				'Rouge',	'39yrs',	'5\'6\"',	'135lbs',	'black',	'white',		'brown',	'10',	'16',	'12',	'17',	'16',	'13'	],
-				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'black',	'purple',		'black',	'20',	'16',	'14',	'7',	'10',	'12'	],
-				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'black',	'dark blue',	'green',	'7',	'18',	'14',	'12',	'8',	'18'	]
+				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'clear',	'clear',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'clear',	'clear',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['doran', 'Doran Ashford',				'LN',	'Wizard',	'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'#A0A0A0',	'#A0A0A0',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11'	],
+				['damain', 'Damain Daytonos',			'CG',	'Male',		'Human',			'Bard',		'54yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',		'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16'	],
+			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19yrs',	'6\'6\"',	'???lbs',	'light blue','#FFFFFF',		'red',		'7',	'7',	'13',	'14',	'16',	'16[10]'],
+				['nicholas', 'Nicholas Reign Zhou',		'CE',	'Male',		'Muse',				'Rouge',	'39yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',		'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13'	],
+				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'#1E1E1E',	'#584961',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12'	],
+				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'#1E1E1E',	'#00002F',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18'	]
 			];
 			noOfDrops = dropData.length;
 
@@ -43,15 +49,47 @@
 				context.drawImage(imgBg, 0, 0); //later make background for each ?character/class? and index in srcBGStorage, recall w/ mouseOverChar
 			}
 			
+			function radarX(stat, degrees) {
+				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.cos(degrees*Math.PI/180));
+			}
+			
+			function radarY(stat, degrees) {
+				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.sin(degrees*Math.PI/180));
+			}
+			
 			//Draw Function
 			function draw() {
 				//Background
 				drawBackground();
+//
+context.font = "30px Comic Sans MS";
+context.textAlign = "center";
+//
+context.save();
+context.translate(width/2, height/2);
+context.beginPath();
+context.moveTo(radarX(0, -90), radarY(0, -90));	//STR
+context.lineTo(radarX(1, -30), radarY(1, -30));	//DEX
+context.lineTo(radarX(2, 30), radarY(2, 30));	//CON
+context.lineTo(radarX(3, 90), radarY(3, 90));	//INT
+context.lineTo(radarX(4, 150), radarY(4, 150));	//WIS
+context.lineTo(radarX(5, 210), radarY(5, 210));	//CHA
+context.fillStyle = dropData[mouseOverChar][11];
+context.fill();
+context.fillStyle = 'white';
+context.fillText('STR', radarX(0, -90), radarY(0, -90)+15);	//STR
+context.fillText('DEX', radarX(1, -30), radarY(1, -30)+15);	//DEX
+context.fillText('CON', radarX(2, 30), radarY(2, 30)+15);	//CON
+context.fillText('INT', radarX(3, 90), radarY(3, 90)+15);	//INT
+context.fillText('WIS', radarX(4, 150), radarY(4, 150)+15);	//WIS
+context.fillText('CHA', radarX(5, 210), radarY(5, 210)+15);	//CHA
+context.restore();
+//
 				context.drawImage(fallingDrops[mouseOverChar].image, width/2 - dropx/2, height/2 - dropy/2, dropx, dropy);
 //
 context.font = "30px Comic Sans MS";
-context.fillStyle = '' + dropData[mouseOverChar][9];
 context.textAlign = "center";
+context.fillStyle = '' + dropData[mouseOverChar][9];
 context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2); 
 //
 context.save();
@@ -73,11 +111,16 @@ context.restore();
 						fallingDrops[i].x = Math.random() * (width - (dropScale * dropx));  
 						fallingDrops[i].speed = 3 + Math.random() * 4;
 					}
-					//check if mouse over char
-					if (fallingDrops[i].x < mouseX && fallingDrops[i].x + (dropScale * dropx) > mouseX && fallingDrops[i].y < mouseY && fallingDrops[i].y + (dropScale * dropy) > mouseY) {
+					//check if mouse clicked over char
+					if (click && fallingDrops[i].x < clickX && fallingDrops[i].x + (dropScale * dropx) > clickX && fallingDrops[i].y < clickY && fallingDrops[i].y + (dropScale * dropy) > clickY) {
 						mouseOverChar = i;
+						click = 0;
+						//
+				//		var myWindow = window.open("https://www.google.com", "_blank", "fullscreen=1,toolbar=1"); doesn't open new tab in wallpaper engine
+						//
 					}
 				}
+				click = 0;
 			}
 			
 			
@@ -90,6 +133,13 @@ context.restore();
 					var rect = canvas.getBoundingClientRect();
 					mouseX = evt.clientX - rect.left;
 					mouseY = evt.clientY - rect.top;
+				}, false)
+				//Track last click in clickX and clickY, turning on click
+				canvas.addEventListener('click', function(evt) {
+					var rect = canvas.getBoundingClientRect();
+					clickX = evt.clientX - rect.left;
+					clickY = evt.clientY - rect.top;
+					click = 1;
 				}, false)
 				//Set up images
 				if (canvas.getContext) {
