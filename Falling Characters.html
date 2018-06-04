@@ -33,13 +33,13 @@
 			
 			var dropData = [	
 			//['name(+.png/+bg.png)', 'full name', 'alignment', 'gender', 	'species', 			'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	]
-				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'clear',	'clear',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
-				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'clear',	'clear',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'#E6F6FF',	'#E6F6FF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'#E6F5FF',	'#E6F5FF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
 				['doran', 'Doran Ashford',				'LN',	'Wizard',	'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'#A0A0A0',	'#A0A0A0',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11'	],
 				['damain', 'Damain Daytonos',			'CG',	'Male',		'Human',			'Bard',		'54yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',		'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16'	],
 			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19yrs',	'6\'6\"',	'???lbs',	'light blue','#FFFFFF',		'red',		'7',	'7',	'13',	'14',	'16',	'16[10]'],
 				['nicholas', 'Nicholas Reign Zhou',		'CE',	'Male',		'Muse',				'Rouge',	'39yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',		'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13'	],
-				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'#1E1E1E',	'#584961',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12'	],
+				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'#584961',	'#1E1E1E',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12'	],
 				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'#1E1E1E',	'#00002F',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18'	]
 			];
 			noOfDrops = dropData.length;
@@ -49,75 +49,89 @@
 				context.drawImage(imgBg, 0, 0); //later make background for each ?character/class? and index in srcBGStorage, recall w/ mouseOverChar
 			}
 			
-			function radarX(stat, degrees) {
-				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.cos(degrees*Math.PI/180));
+			function radarX(stat) {
+				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.cos((-90+60*stat)*Math.PI/180));
 			}
 			
-			function radarY(stat, degrees) {
-				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.sin(degrees*Math.PI/180));
+			function radarY(stat) {
+				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.sin((-90+60*stat)*Math.PI/180));
+			}
+			
+			function drawRadar() {
+				context.save();
+				context.translate(width/2, height/2);
+				//Hexagon
+				context.beginPath();
+				context.moveTo(radarX(0), radarY(0));	//STR
+				context.lineTo(radarX(1), radarY(1));	//DEX
+				context.lineTo(radarX(2), radarY(2));	//CON
+				context.lineTo(radarX(3), radarY(3));	//INT
+				context.lineTo(radarX(4), radarY(4));	//WIS
+				context.lineTo(radarX(5), radarY(5));	//CHA
+				context.fillStyle = dropData[mouseOverChar][11];	//Eye Color
+				context.fill();
+				//Labels
+				context.textAlign = "center";
+				context.font = "20px Comic Sans MS";
+				context.strokeStyle = 'black';
+				context.lineWidth = 4;
+				context.strokeText('STR', radarX(0), radarY(0)+10);	//STR
+				context.strokeText('DEX', radarX(1), radarY(1)+10);	//DEX
+				context.strokeText('CON', radarX(2), radarY(2)+10);	//CON
+				context.strokeText('INT', radarX(3), radarY(3)+10);	//INT
+				context.strokeText('WIS', radarX(4), radarY(4)+10);	//WIS
+				context.strokeText('CHA', radarX(5), radarY(5)+10);	//CHA
+				context.font = "20px Comic Sans MS";
+				context.strokeStyle = 'white';
+				context.lineWidth = 2;
+				context.strokeText('STR', radarX(0), radarY(0)+10);	//STR
+				context.strokeText('DEX', radarX(1), radarY(1)+10);	//DEX
+				context.strokeText('CON', radarX(2), radarY(2)+10);	//CON
+				context.strokeText('INT', radarX(3), radarY(3)+10);	//INT
+				context.strokeText('WIS', radarX(4), radarY(4)+10);	//WIS
+				context.strokeText('CHA', radarX(5), radarY(5)+10);	//CHA
+				context.restore();
 			}
 			
 			//Draw Function
 			function draw() {
 				//Background
-				drawBackground();
-//
-context.font = "30px Comic Sans MS";
-context.textAlign = "center";
+				context.fillStyle = dropData[mouseOverChar][9];
+				document.body.style.background = dropData[mouseOverChar][9];
+				context.fillRect(0, 0, width, height);
+				//drawBackground();
 //
 context.save();
-context.translate(width/2, height/2);
-context.beginPath();
-context.moveTo(radarX(0, -90), radarY(0, -90));	//STR
-context.lineTo(radarX(1, -30), radarY(1, -30));	//DEX
-context.lineTo(radarX(2, 30), radarY(2, 30));	//CON
-context.lineTo(radarX(3, 90), radarY(3, 90));	//INT
-context.lineTo(radarX(4, 150), radarY(4, 150));	//WIS
-context.lineTo(radarX(5, 210), radarY(5, 210));	//CHA
-context.fillStyle = dropData[mouseOverChar][11];
-context.fill();
-context.fillStyle = 'white';
-context.fillText('STR', radarX(0, -90), radarY(0, -90)+15);	//STR
-context.fillText('DEX', radarX(1, -30), radarY(1, -30)+15);	//DEX
-context.fillText('CON', radarX(2, 30), radarY(2, 30)+15);	//CON
-context.fillText('INT', radarX(3, 90), radarY(3, 90)+15);	//INT
-context.fillText('WIS', radarX(4, 150), radarY(4, 150)+15);	//WIS
-context.fillText('CHA', radarX(5, 210), radarY(5, 210)+15);	//CHA
+context.rotate(90*Math.PI/180);
+context.font = "340px Comic Sans MS";
+context.textAlign = "center";
+context.fillStyle = '' + dropData[mouseOverChar][10];
+context.fillText('' + dropData[mouseOverChar][5], height/2, -25);
 context.restore();
 //
+				drawRadar();
 				context.drawImage(fallingDrops[mouseOverChar].image, width/2 - dropx/2, height/2 - dropy/2, dropx, dropy);
 //
 context.font = "30px Comic Sans MS";
 context.textAlign = "center";
 context.fillStyle = '' + dropData[mouseOverChar][9];
-context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2); 
-//
-context.save();
-context.translate(width/2, height/2);
-context.rotate(-45*Math.PI/180);
-context.textAlign = "center";
-context.fillStyle = '' + dropData[mouseOverChar][10];
-context.fillText('' + dropData[mouseOverChar][5], 0, 0);
-context.restore();
-//
+context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2 - 50); 
 				//Drops
 				for (var i = 0; i < noOfDrops; i++) {
-					//Draw and Increment
-					context.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y, (dropScale * dropx), (dropScale * dropy));
-					fallingDrops[i].y += fallingDrops[i].speed;
-					//Put back up if below view
-					if (fallingDrops[i].y > height) {
+					if (mouseOverChar == i || fallingDrops[i].y > height) {
+						//Put back up if added back in or below view
 						fallingDrops[i].y = -5 - (dropScale * dropy);
 						fallingDrops[i].x = Math.random() * (width - (dropScale * dropx));  
 						fallingDrops[i].speed = 3 + Math.random() * 4;
+					} else {
+						//Draw and Increment
+						context.drawImage(fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y, (dropScale * dropx), (dropScale * dropy));
+						fallingDrops[i].y += fallingDrops[i].speed;
 					}
 					//check if mouse clicked over char
-					if (click && fallingDrops[i].x < clickX && fallingDrops[i].x + (dropScale * dropx) > clickX && fallingDrops[i].y < clickY && fallingDrops[i].y + (dropScale * dropy) > clickY) {
+					if (click && mouseOverChar != i && fallingDrops[i].x < clickX && fallingDrops[i].x + (dropScale * dropx) > clickX && fallingDrops[i].y < clickY && fallingDrops[i].y + (dropScale * dropy) > clickY) {
 						mouseOverChar = i;
 						click = 0;
-						//
-				//		var myWindow = window.open("https://www.google.com", "_blank", "fullscreen=1,toolbar=1"); doesn't open new tab in wallpaper engine
-						//
 					}
 				}
 				click = 0;
