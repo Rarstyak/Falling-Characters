@@ -25,29 +25,29 @@
 			//Radar Size
 			var radarSize = 525;
 			//Background image link list
-			var srcBGroute = 'images/BG/';
-			var srcBGStorage = "Desktop_Background-bqSw.jpg";
+	//		var srcBGroute = 'images/BG/';
+	//		var srcBGStorage = "Desktop_Background-bqSw.jpg";
 			//Drop image link list
 			var noOfDrops;
 			var srcDroproute = 'images/';
 			
 			var dropData = [	
 			//['name(+.png/+bg.png)', 'full name', 'alignment', 'gender', 	'species', 			'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	]
-				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'#E6F6FF',	'#E6F6FF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
-				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'#E6F5FF',	'#E6F5FF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
-				['doran', 'Doran Ashford',				'LN',	'Wizard',	'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'#A0A0A0',	'#A0A0A0',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11'	],
+				['lissi', 'Lissidellia Illyria Alpine',	'N',	'Female',	'Sylph',			'Witch',	'79yrs',	'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['lawrence', 'Lawrence',				'NE',	'Male',		'Undine',			'Witch',	'2mo',		'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10'	],
+				['doran', 'Doran Ashford',				'LN',	'Male',		'Human',			'Wizard',	'23yrs',	'5\'5\"',	'114lbs',	'#A0A0A0',	'#A5A6A6',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11'	],
 				['damain', 'Damain Daytonos',			'CG',	'Male',		'Human',			'Bard',		'54yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',		'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16'	],
 			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19yrs',	'6\'6\"',	'???lbs',	'light blue','#FFFFFF',		'red',		'7',	'7',	'13',	'14',	'16',	'16[10]'],
 				['nicholas', 'Nicholas Reign Zhou',		'CE',	'Male',		'Muse',				'Rouge',	'39yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',		'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13'	],
 				['rei', 'Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Eidolon',	'20yrs',	'5\'7\"',	'145lbs',	'#584961',	'#1E1E1E',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12'	],
-				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'#1E1E1E',	'#00002F',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18'	]
+				['zhen', 'Zhen Nav',					'CG',	'Male',		'Tiefling',			'Summoner',	'19yrs',	'5\'11\"',	'145lbs',	'#1A1C1B',	'#001E4A',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18'	]
 			];
 			noOfDrops = dropData.length;
 
 			//Background
-			function drawBackground() {
-				context.drawImage(imgBg, 0, 0); //later make background for each ?character/class? and index in srcBGStorage, recall w/ mouseOverChar
-			}
+	//		function drawBackground() {
+	//			context.drawImage(imgBg, 0, 0); //later make background for each ?character/class? and index in srcBGStorage, recall w/ mouseOverChar
+	//		}
 			
 			function radarX(stat) {
 				return (radarSize * dropData[mouseOverChar][12+stat] / 20 * Math.cos((-90+60*stat)*Math.PI/180));
@@ -74,16 +74,15 @@
 				context.textAlign = "center";
 				context.font = "20px Comic Sans MS";
 				context.strokeStyle = 'black';
-				context.lineWidth = 4;
+				context.lineWidth = 5;
 				context.strokeText('STR', radarX(0), radarY(0)+10);	//STR
 				context.strokeText('DEX', radarX(1), radarY(1)+10);	//DEX
 				context.strokeText('CON', radarX(2), radarY(2)+10);	//CON
 				context.strokeText('INT', radarX(3), radarY(3)+10);	//INT
 				context.strokeText('WIS', radarX(4), radarY(4)+10);	//WIS
 				context.strokeText('CHA', radarX(5), radarY(5)+10);	//CHA
-				context.font = "20px Comic Sans MS";
 				context.strokeStyle = 'white';
-				context.lineWidth = 2;
+				context.lineWidth = 3;
 				context.strokeText('STR', radarX(0), radarY(0)+10);	//STR
 				context.strokeText('DEX', radarX(1), radarY(1)+10);	//DEX
 				context.strokeText('CON', radarX(2), radarY(2)+10);	//CON
@@ -96,7 +95,7 @@
 			//Draw Function
 			function draw() {
 				//Background
-				context.fillStyle = dropData[mouseOverChar][9];
+				context.fillStyle = dropData[mouseOverChar][9];	//Hair 1
 				document.body.style.background = dropData[mouseOverChar][9];
 				context.fillRect(0, 0, width, height);
 				//drawBackground();
@@ -105,7 +104,7 @@ context.save();
 context.rotate(90*Math.PI/180);
 context.font = "340px Comic Sans MS";
 context.textAlign = "center";
-context.fillStyle = '' + dropData[mouseOverChar][10];
+context.fillStyle = '' + dropData[mouseOverChar][10];	//Hair 2
 context.fillText('' + dropData[mouseOverChar][5], height/2, -25);
 context.restore();
 //
@@ -114,7 +113,7 @@ context.restore();
 //
 context.font = "30px Comic Sans MS";
 context.textAlign = "center";
-context.fillStyle = '' + dropData[mouseOverChar][9];
+context.fillStyle = '' + dropData[mouseOverChar][9];	//Hair 1
 context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2 - 50); 
 				//Drops
 				for (var i = 0; i < noOfDrops; i++) {
@@ -158,8 +157,8 @@ context.fillText('' + dropData[mouseOverChar][1], width/2, height/2 + dropy/2 - 
 				//Set up images
 				if (canvas.getContext) {
 					context = canvas.getContext('2d');
-					imgBg = new Image();
-					imgBg.src = '' + srcBGroute + srcBGStorage;
+		//			imgBg = new Image();
+		//			imgBg.src = '' + srcBGroute + srcBGStorage;
 					setInterval(draw, 36);
 					//Loop Through and add drops
 					for (i = 0; i < noOfDrops; i++) {
