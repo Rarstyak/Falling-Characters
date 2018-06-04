@@ -101,11 +101,14 @@
 				//drawBackground();
 //
 context.save();
-context.rotate(90*Math.PI/180);
-context.font = "340px Comic Sans MS";
-context.textAlign = "center";
+context.font = "175px Comic Sans MS";
+context.textAlign = "left";
 context.fillStyle = '' + dropData[mouseOverChar][10];	//Hair 2
-context.fillText('' + dropData[mouseOverChar][5], height/2, -25);
+context.fillText('' + dropData[mouseOverChar][2], 0, 150);
+context.rotate(90*Math.PI/180);
+context.fillText('' + dropData[mouseOverChar][4], 0, -width + 150);
+context.textAlign = "right";
+context.fillText('' + dropData[mouseOverChar][5], height - 125, -25);
 context.restore();
 //
 				drawRadar();
