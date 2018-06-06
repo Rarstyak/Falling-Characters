@@ -31,6 +31,7 @@
 			var i = -1;
 			const NICKNAME 	= ++i;
 			const FULLNAME 	= ++i; 
+			const HITDIE 	= ++i; 
 			const ALIGNMENT = ++i; 
 			const GENDER 	= ++i; 
 			const SPECIES 	= ++i;
@@ -46,15 +47,15 @@
 			const MBTINAME	= ++i;
 			const MBTIFNCT	= ++i;
 			var dropData = [	
-			//['name(+.png/+bg.png)', 'full name', 'alignment', 'gender', 	'species', 			'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	'MBTI',	'MBTINAME',		''MBTIFNCT]
-				['lissi','Lissidellia Illyria Alpine',	'TN',	'Female',	'Spellbound Sylph',	'Ice Witch','79 Yrs',	'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10',	'ENTP',	'Inventor',		'Te>Ni>>Se>Fi'],
-				['lawrence','Lawrence',					'NE',	'Male',		'Artificial Undine','Hex Witch','8 Wks',	'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10',	'ESTP',	'Promoter ',	'Te>Si>>Ne>Fi'	],
-				['doran','Doran Ashford',				'LN',	'Male',		'Human Princeling',	'Divination','23 Yrs',	'5\'5\"',	'114lbs',	'#A0A0A0',	'#A5A6A6',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11',	'ESTJ',	'Supervisor',	'Se>Ti>>Fe>Ni'	],
-				['damain','Damain Daytonos',			'CG',	'Male',		'Plain Old Human',	'Valor Bard','54 Yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',		'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	],
-			//	['gillious', 'Martin Gilson II',		'LE',	'Male',		'Aquian',			'Archmage',	'19 Yrs',	'6\'6\"',	'???lbs',	'light blue','#FFFFFF',		'red',		'7',	'7',	'13',	'14',	'16',	'16|10','',	''	],
-				['nicholas','Nicholas Reign Zhou',		'CE',	'Male',		'Silverblood Muse',	'Roguish AT','39 Yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',		'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13',	'INTJ',	'Mastermind',	'Ni>Te>>Fi>Se'	],
-				['rei','Rei Fei',						'CG',	'Female',	'1/4 Swan Maiden',	'Atk Eidolon','20 Yrs',	'5\'7\"',	'145lbs',	'#584961',	'#4D1F40',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12',	'ENFJ',	'Teacher',		'Ne>Fi>>Te>Si'	],
-				['zhen','Zhen Nav',						'CG',	'Male',		'Divspawn Tiefling','Summoner',	'19 Yrs',	'5\'11\"',	'145lbs',	'#1A1C1B',	'#001E4A',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	]
+			//['name(+.png/+bg.png)', 'full name', 'hitdie'	'alignment', 'gender', 	'species', 		'class',5 	'age', 		'height', 	'weight', 	'hair1', 	'hair2',10		'eyes', 	'STR', 	'DEX', 	'CON', 	'INT',15'WIS', 	'CHA'	'MBTI',	'MBTINAME',		''MBTIFNCT]
+				['lissi','Lissidellia Illyria Alpine', 'd6','TN',	'Female',	'Spellbound Sylph',	'Ice Witch','79 Yrs',	'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10',	'ENTP',	'Inventor',		'Te>Ni>>Se>Fi'],
+				['lawrence','Lawrence',				'd6',	'NE',	'Male',		'Artificial Undine','Hex Witch','8 Wks',	'6\'0\"',	'140lbs',	'#E6F5FF',	'#F0FFFF',		'#B5C8CC',	'8',	'16',	'17',	'18',	'14',	'10',	'ESTP',	'Promoter ',	'Te>Si>>Ne>Fi'	],
+				['doran','Doran Ashford',			'd6',	'LN',	'Male',		'Human Princeling',	'Divination','23 Yrs',	'5\'5\"',	'114lbs',	'#A5A6A6',	'#C3C1C1',		'#ffbf00',	'10',	'14',	'14',	'18',	'14',	'11',	'ESTJ',	'Supervisor',	'Se>Ti>>Fe>Ni'	],
+				['damain','Damain Daytonos',		'd8',	'CG',	'Male',		'Plain Old Human',	'Valor Bard','54 Yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',		'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	],
+			//	['gillious', 'Martin Gilson II',	'd?',	'LE',	'Male',		'Aquian',			'Archmage',	'19 Yrs',	'6\'6\"',	'???lbs',	'light blue','#FFFFFF',		'red',		'7',	'7',	'13',	'14',	'16',	'16|10','',	''	],
+				['nicholas','Nicholas Reign Zhou',	'd8',	'CE',	'Male',		'Silverblood Muse',	'Roguish AT','39 Yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',		'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13',	'INTJ',	'Mastermind',	'Ni>Te>>Fi>Se'	],
+				['rei','Rei Fei',					'd10',	'CG',	'Female',	'1/4 Swan Maiden',	'Atk Eidolon','20 Yrs',	'5\'7\"',	'145lbs',	'#584961',	'#4D1F40',		'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12',	'ENFJ',	'Teacher',		'Ne>Fi>>Te>Si'	],
+				['zhen','Zhen Nav',					'd8',	'CG',	'Male',		'Divspawn Tiefling','Summoner',	'19 Yrs',	'5\'11\"',	'145lbs',	'#1A1C1B',	'#012953',		'#19651E',	'7',	'18',	'14',	'12',	'8',	'18',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	]
 			];
 			noOfDrops = dropData.length;
 			
@@ -93,12 +94,14 @@
 				context.restore();
 				context.drawImage(fallingDrops[mouseOverChar].weapon, 25, 350, 240, 240);	//Weapon
 				context.drawImage(fallingDrops[mouseOverChar].mbti, 390, 350, 690*3/4, 500*3/4);	//MBTIIMG
+				context.drawImage(fallingDrops[mouseOverChar].hd, 270, 850, 320, 320);	//Hit Die
 			}
 			
 			function drawRadar() {
 				context.save();
 				context.translate(width/2, height/2);
 				//Hexagon
+				context.globalAlpha = 0.5;
 				context.beginPath();
 				context.moveTo(radarX(0), radarY(0));	//STR
 				context.lineTo(radarX(1), radarY(1));	//DEX
@@ -108,6 +111,7 @@
 				context.lineTo(radarX(5), radarY(5));	//CHA
 				context.fillStyle = dropData[mouseOverChar][EYE];	//Hexagon is Eye Color
 				context.fill();
+				context.globalAlpha = 1.0;
 				//Labels
 				context.textAlign = "center";
 				context.font = "20px Comic Sans MS";
@@ -186,16 +190,21 @@
 					setInterval(draw, 36);
 					//Loop Through and add drops
 					for (i = 0; i < noOfDrops; i++) {
+						//Per Character
 						var fallingDr = new Object();
-						//Drop
-						fallingDr["image"] = new Image();
-						fallingDr.image.src = '' + srcDroproute + dropData[i][NICKNAME] + '.png';
 						//Weapon
 				/**/	fallingDr["weapon"] = new Image();
 				/**/	fallingDr.weapon.src = '' + srcDroproute + dropData[i][NICKNAME] + 'W.png';
 						//MBTI
 				/**/	fallingDr["mbti"] = new Image();
 				/**/	fallingDr.mbti.src = '' + srcDroproute + dropData[i][NICKNAME] + 'MBTI.png';
+						//Hit Die
+				/**/	fallingDr["hd"] = new Image();
+				/**/	fallingDr.hd.src = '' + srcDroproute + dropData[i][NICKNAME] + 'HD.png';
+						//Drop
+						fallingDr["image"] = new Image();
+						fallingDr.image.src = '' + srcDroproute + dropData[i][NICKNAME] + '.png';
+						//Drop Data
 						fallingDr["x"] = Math.random() * (width - (dropScale * dropx));
 						fallingDr["y"] = Math.random() * (height - (dropScale * dropy));
 						fallingDr["speed"] = 3 + Math.random() * 4;
