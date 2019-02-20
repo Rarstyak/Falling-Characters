@@ -23,7 +23,7 @@
 			var dropScale = 0.5;
 			var fallingDrops = [];
 			//Radar Size
-			var radarSize = 525;
+			var radarSize = 400;
 			//Drop image link list
 			var noOfDrops;
 			var srcDropRoute = 'images/';
@@ -63,17 +63,25 @@
 				['damain','Damain Daytonos',			'dagger',	'd8',	'CG',	'Male',		'Plain Old Human',	'Valor Bard',	'54 Yrs',	'6\'5\"',	'146lbs',	'#A0A0A0',	'#D1D0D0',	'#00A0C7',	'9',	'14',	'12',	'14',	'14',	'16',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	],
 				['gilious', 'Martin Gilson II',			'book',		'd4',	'LE',	'Male',		'Demonic Aquian',	'Archmage',		'19 Yrs',	'6\'6\"',	'185lbs',	'#B5EBFF',	'#FFFAFA',	'#DD2F4C',	'7',	'7',	'13',	'14',	'16',	'16',	'ISTJ',	'Inspector',	'Si>Te>>Fi,Ne'	],
 				['nicholas','Nicholas Reign Zhou',		'rapier',	'd8',	'CE',	'Male',		'Silverblood Muse',	'Roguish AT',	'39 Yrs',	'5\'6\"',	'135lbs',	'#1E1E1E',	'#FFFFFF',	'#8C5447',	'10',	'16',	'12',	'17',	'16',	'13',	'INTJ',	'Mastermind',	'Ni>Te>>Fi>Se'	],
-				['rei','Rei Fei',						'gsword',	'd10',	'CG',	'Female',	'1/4 Swan Maiden',	'Atk Eidolon',	'20 Yrs',	'5\'7\"',	'145lbs',	'#584961',	'#4D1F40',	'#1C1C1C',	'20',	'16',	'14',	'7',	'10',	'12',	'ENFJ',	'Teacher',		'Ne>Fi>>Te>Si'	],
-				['zhen','Zhen Nav',						'mstar',	'd8',	'CG',	'Male',		'Divspawn Tiefling','Summoner',		'19 Yrs',	'5\'11\"',	'145lbs',	'#1A1C1B',	'#012953',	'#19651E',	'7',	'18',	'14',	'12',	'8',	'18',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	]
+				['rei','Rei Fei',						'gsword',	'd10',	'CG',	'Female',	'1/4 Swan Maiden',	'Atk Eidolon',	'20 Yrs',	'5\'7\"',	'145lbs',	'#584961',	'#4D1F40',	'#1C1C1C',	'26',	'16',	'16',	'8',	'10',	'12',	'ENFJ',	'Teacher',		'Ne>Fi>>Te>Si'	],
+				['zhen','Zhen Nav',						'mstar',	'd8',	'CG',	'Male',		'Divspawn Tiefling','Summoner',		'19 Yrs',	'5\'11\"',	'145lbs',	'#1A1C1B',	'#012953',	'#19651E',	'7',	'18',	'14',	'18',	'8',	'18',	'ENFP',	'Champion',		'Fe>Ni>>Se>Ti'	]
 			];
 			noOfDrops = dropData.length;
 			
 			function radarX(stat) {
-				return (radarSize * dropData[mouseOverChar][ABS+stat] / 20 * Math.cos((-90 + 60 * stat) * Math.PI / 180));
+				return (radarSize * dropData[mouseOverChar][ABS+stat] / 18 * Math.cos((-90 + 60 * stat) * Math.PI / 180));
 			}
 			
 			function radarY(stat) {
-				return (radarSize * dropData[mouseOverChar][ABS+stat] / 20 * Math.sin((-90 + 60 * stat) * Math.PI / 180));
+				return (radarSize * dropData[mouseOverChar][ABS+stat] / 18 * Math.sin((-90 + 60 * stat) * Math.PI / 180));
+			}
+			
+			function radarXFull(stat) {
+				return (radarSize * 18 / 18 * Math.cos((-90 + 60 * stat) * Math.PI / 180));
+			}
+			
+			function radarYFull(stat) {
+				return (radarSize * 18 / 18 * Math.sin((-90 + 60 * stat) * Math.PI / 180));
 			}
 			
 			function fillBackDrop() {
@@ -122,7 +130,7 @@
 				context.save();
 				context.translate(width/2, height/2);
 				//Hexagon
-				context.globalAlpha = 0.5;
+				context.globalAlpha = 0.50;
 				context.beginPath();
 				context.moveTo(radarX(0), radarY(0));	//STR
 				context.lineTo(radarX(1), radarY(1));	//DEX
@@ -130,6 +138,15 @@
 				context.lineTo(radarX(3), radarY(3));	//INT
 				context.lineTo(radarX(4), radarY(4));	//WIS
 				context.lineTo(radarX(5), radarY(5));	//CHA
+				context.fillStyle = dropData[mouseOverChar][EYE];	//Hexagon is Eye Color
+				context.fill();
+				context.globalAlpha = 0.25;
+				context.moveTo(radarXFull(0), radarYFull(0));	//STR
+				context.lineTo(radarXFull(1), radarYFull(1));	//DEX
+				context.lineTo(radarXFull(2), radarYFull(2));	//CON
+				context.lineTo(radarXFull(3), radarYFull(3));	//INT
+				context.lineTo(radarXFull(4), radarYFull(4));	//WIS
+				context.lineTo(radarXFull(5), radarYFull(5));	//CHA
 				context.fillStyle = dropData[mouseOverChar][EYE];	//Hexagon is Eye Color
 				context.fill();
 				context.globalAlpha = 1.0;
